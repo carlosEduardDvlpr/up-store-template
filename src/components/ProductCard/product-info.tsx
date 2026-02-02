@@ -30,7 +30,7 @@ export function ProductInfo() {
         </p>
       </div>
       <div className="flex flex-1 flex-col">
-        {!user && !isLoading ? (
+        {user && !isLoading ? (
           product.price_wholesale ? (
             <div className="space-y-1 px-1">
               <div className="flex flex-col">
