@@ -1,11 +1,11 @@
-import { useProductCard } from "@/contexts/product-card-context";
-import { useTokenContext } from "@/contexts/token-context";
-import { formatCurrency } from "@/lib/utils";
-import { Button } from "../ui/button";
-import { useState } from "react";
-import { SignUpForm } from "../Forms/SignUp";
-import { Dialog, DialogContent } from "../ui/dialog";
-import { INSTALLMENTS, PIX_DISCOUNT_PERCENTAGE } from "@/data/constants";
+import { useProductCard } from '@/contexts/product-card-context';
+import { useTokenContext } from '@/contexts/token-context';
+import { formatCurrency } from '@/lib/utils';
+import { Button } from '../ui/button';
+import { useState } from 'react';
+import { SignUpForm } from '../Forms/SignUp';
+import { Dialog, DialogContent } from '../ui/dialog';
+import { INSTALLMENTS, PIX_DISCOUNT_PERCENTAGE } from '@/data/constants';
 
 export function ProductInfo() {
   const { product } = useProductCard();
@@ -18,38 +18,41 @@ export function ProductInfo() {
 
   return (
     <div className="flex flex-1 flex-col pt-4">
-      <div className="text-lg text-zinc-500" style={{ height: "1.2em" }}>
+      <div className="text-lg text-zinc-500" style={{ height: '1.2em' }}>
         <p
-          className="line-clamp-1 max-w-full mx-auto text-lg font-thin"
-          style={{ maxHeight: "1.2em", lineHeight: "1.2em" }}
+          className="line-clamp-1 max-w-full mx-auto text-[11px] ml-1 text-black font-serif"
+          style={{
+            maxHeight: '1.2em',
+            lineHeight: '1.2em',
+          }}
         >
           {product.title}
         </p>
       </div>
       <div className="flex flex-1 flex-col">
-        {user && !isLoading ? (
+        {!user && !isLoading ? (
           product.price_wholesale ? (
-            <div className="space-y-1 px-1 py-2">
-              <div className="flex flex-row space-y-2 space-x-2">
-                <p className="text-2xl font-thin">
+            <div className="space-y-1 px-1">
+              <div className="flex flex-col">
+                <p className="font-base text-sm">
                   {formatCurrency(product.price_wholesale)}
                 </p>
-                <p className="text-sm lg:text-md text-muted-foreground font-light">
+                <p className="text-xs text-muted-foreground font-light">
                   {`em até ${safeInstallments}x de `}
                   {formatCurrency(
                     Number(product.price_wholesale) / INSTALLMENTS,
                   )}
                 </p>
               </div>
-              <p className="text-[15px] text-muted-foreground text-green-800 opacity-70">
+              <p className="text-xs text-muted-foreground text-green-800 opacity-70">
                 {formatCurrency(
                   product.price_wholesale * (1 - safePixDiscount),
-                )}{" "}
+                )}{' '}
                 no PIX
               </p>
             </div>
           ) : (
-            "SEM PREÇO"
+            'SEM PREÇO'
           )
         ) : (
           <>
