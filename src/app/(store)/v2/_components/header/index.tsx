@@ -1,17 +1,34 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { navLinks } from '../../_mocks/nav-links';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ChevronDown, Search, ShoppingBag, User } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export function Header() {
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const isHomeV2 = pathname === '/v2';
+
+  useEffect(() => {
+    if (!isHomeV2) return;
+
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isHomeV2]);
+
+  console.log(scrolled)
 
   return (
-    <header className="font-serif fixed left-0 right-0 z-50 transition-all duration-300 bg-background border-b border-border">
+    <header className={`fixed left-0 right-0 z-50 transition-all duration-300 bg-background border-b border-border ${scrolled ? '' : 'bg-transparent text-background border-none'}`}>
       {/* frete - cupom */}
       <div className="bg-[#7CB89D] text-white text-xs md:text-sm py-3 text-center">
         Frete Gratis para pedidos acima de R$ 999 | Use o cupom: FRETEGRATIS
@@ -58,12 +75,11 @@ export function Header() {
 
           {/* Center - Logo */}
           <Link
-            href="/"
+            href="/v2"
             className="absolute left-1/2 transform -translate-x-1/2"
           >
-            <h1 className="text-2xl lg:text-3xl font-light tracking-[0.2em] whitespace-nowrap cursor-pointer hover:opacity-70 transition-opacity">
-              KALLI
-            </h1>
+            <img src="/slider/logo kalli.svg" alt="Logo" className={`h-10 w-auto ${scrolled ? '' : 'invert'}`} />
+            
           </Link>
 
           <div className="flex items-center gap-2 lg:gap-3 flex-1 justify-end">
@@ -72,9 +88,9 @@ export function Header() {
               <Input
                 type="search"
                 placeholder="Buscar..."
-                className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-sm font-light w-32 p-0 h-auto bg-transparent"
+                className={`border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-sm font-light w-32 p-0 h-auto bg-transparent ${scrolled ? '' : 'placeholder:text-background'}`}
               />
-              <Search className="h-4 w-4 text-muted-foreground" />
+              <Search className={`h-4 w-4 ${scrolled ? 'text-muted-foreground' : 'text-background'}`} />
             </div>
 
             {/* Login */}
